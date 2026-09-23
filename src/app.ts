@@ -1,14 +1,18 @@
-import express from 'express';
+import express from "express";
+import userRoutes from "./routes/userRoutes.js";
+import { json } from "node:stream/consumers";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.use("/", (req, res) => {
     res.status(200).json({
-        message: "Bem Vindo ao Sistema",
-        version: "1.0.0",
+        message: "Bem vindo ao Sistema",
+        version: "1.0.0"
     });
 });
+
+app.use("/users", userRoutes);
 
 export default app;
