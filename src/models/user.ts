@@ -32,7 +32,7 @@ async function findById(id: string) {
     id,
   ]);
 
-  return result.rows[0];
+  return result.rows[0] ?? null;
 }
 
 async function findKeyword(name: string) {
@@ -76,7 +76,7 @@ async function update(user: UpdateUser) {
             tipo = $5,
             foto_url = $6,
             data_nascimento = $7,
-            atualizado_em  = $8
+            updated_at  = $8
         WHERE id = $9 RETURNING *`,
     [
       user.nome,
@@ -96,12 +96,13 @@ async function update(user: UpdateUser) {
 
 async function del(id: string) {
   const result = await database.query(
-    ` DELETE FROM usuario
-        WHERE id = $1;`,
+    `DELETE FROM usuario
+         WHERE id = $1
+         RETURNING *`,
     [id],
   );
 
-  return result;
+  return result.rows[0];
 }
 
 export default {

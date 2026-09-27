@@ -1,10 +1,11 @@
 info:
-  name: GET
+  name: DELETE
   type: http
+  seq: 1
 
 http:
-  method: GET
-  url: http://localhost:3000/
+  method: DELETE
+  url: http://localhost:3000/users/1
   auth: inherit
 
 settings:

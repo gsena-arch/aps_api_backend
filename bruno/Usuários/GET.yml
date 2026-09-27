@@ -1,0 +1,24 @@
+info:
+  name: "GET "
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:3000/users/
+  body:
+    type: json
+    data: |-
+      {
+        "name": "ana",
+        "email": "ana@gmail.com"
+        
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+​

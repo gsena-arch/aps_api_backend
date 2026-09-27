@@ -116,13 +116,21 @@ export async function putUser(req: Request, res: Response) {
 
 export async function delUser(req: Request, res: Response) {
   const { id } = req.params;
+
   if (typeof id !== "string") {
     return res.status(400).json({
       message: "Id inválido",
     });
   }
+
   try {
-    await UserModel.del(id);
+    const user = await UserModel.del(id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Usuário não encontrado",
+      });
+    }
 
     return res.status(200).json({
       message: "Usuário removido!",
