@@ -1,0 +1,38 @@
+info:
+  name: PUT
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: http://localhost:3000/hospedagem/{{hospedagem_id}}
+  auth: inherit
+  body:
+    type: json
+    data: |-
+      {
+        "anfitriao_id": "52e7a216-0bfa-4f14-ae09-c10ecb8cad52",
+        "titulo": "Casa acolhedora em Curitiba - atualizada",
+        "descricao": "Casa completa perto do centro, com cozinha equipada.",
+        "tipo": "casa",
+        "preco_diaria": 300,
+        "capacidade": 5,
+        "quartos": 2,
+        "camas": 3,
+        "banheiros": 1,
+        "cep": "80010-000",
+        "logradouro": "Rua das Flores",
+        "numero": "120",
+        "bairro": "Centro",
+        "cidade": "Curitiba",
+        "estado": "PR",
+        "latitude": -25.4284,
+        "longitude": -49.2733,
+        "status": "ATIVA"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
