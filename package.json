@@ -10,13 +10,15 @@
     "test": "vitest",
     "test:run": "vitest run",
     "lint": "eslint src --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "migrate": "tsx script/migrate.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@supabase/server": "^1.8.0",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.2",
     "@types/pg": "^8.23.1",

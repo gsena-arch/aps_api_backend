@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import UserModel from "../../src/models/user.js";
-import { database } from "../../src/config/database.js";
+import supabase from "../../src/config/database.js";
 
 describe("UserModel", () => {
   const mockUser = {
@@ -14,17 +14,25 @@ describe("UserModel", () => {
   };
 
   beforeEach(async () => {
-    await database.query("DELETE FROM usuario WHERE email = $1", [
-      mockUser.email,
-    ]);
+    const { error } = await supabase
+      .from("usuario")
+      .delete()
+      .eq("email", mockUser.email);
+
+    if (error) {
+      throw error;
+    }
   });
 
   afterAll(async () => {
-    await database.query("DELETE FROM usuario WHERE email = $1", [
-      mockUser.email,
-    ]);
+    const { error } = await supabase
+      .from("usuario")
+      .delete()
+      .eq("email", mockUser.email);
 
-    await database.end();
+    if (error) {
+      throw error;
+    }
   });
 
   describe("create", () => {
@@ -63,7 +71,7 @@ describe("UserModel", () => {
 
     it("deve retornar null caso o usuário não exista", async () => {
       const user = await UserModel.findById(
-        "00000000-0000-0000-0000-000000000000",
+        "00000000-0000-0000-0000-000000000000"
       );
 
       expect(user).toBeNull();
@@ -90,7 +98,9 @@ describe("UserModel", () => {
     });
 
     it("deve retornar array vazio quando não encontrar", async () => {
-      const users = await UserModel.findKeyword("USUARIOQUE_NAO_EXISTE_123");
+      const users = await UserModel.findKeyword(
+        "USUARIOQUE_NAO_EXISTE_123"
+      );
 
       expect(users).toEqual([]);
     });
@@ -102,7 +112,6 @@ describe("UserModel", () => {
 
       const updatedUser = await UserModel.update({
         id: createdUser.id,
-
         nome: "João Atualizado",
         email: mockUser.email,
         senha: "novaSenha123",
@@ -113,20 +122,17 @@ describe("UserModel", () => {
       });
 
       expect(updatedUser).toBeDefined();
-
       expect(updatedUser.nome).toBe("João Atualizado");
-
       expect(updatedUser.telefone).toBe("41988888888");
-
       expect(updatedUser.tipo).toBe("ANFITRIAO");
-
-      expect(updatedUser.updated_at).toBeDefined();
+      expect(updatedUser.atualizado_em).toBeDefined();
     });
   });
 
   describe("del", () => {
     it("deve deletar um usuário", async () => {
       const createdUser = await UserModel.create(mockUser);
+
       const deletedUser = await UserModel.del(createdUser.id);
 
       expect(deletedUser).toBeDefined();
@@ -139,7 +145,7 @@ describe("UserModel", () => {
 
     it("deve retornar undefined se usuário não existir", async () => {
       const deletedUser = await UserModel.del(
-        "00000000-0000-0000-0000-000000000000",
+        "00000000-0000-0000-0000-000000000000"
       );
 
       expect(deletedUser).toBeUndefined();
