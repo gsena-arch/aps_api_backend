@@ -63,14 +63,15 @@ describe("Hospedagem Controller", () => {
       expect(response.json).toHaveBeenCalledWith(hospedagens);
     });
 
-    it("retorna 404 quando não há hospedagens", async () => {
+    it("retorna lista vazia com status 200 quando não há hospedagens", async () => {
       const request = createRequest();
       const response = createResponse();
-      vi.mocked(HospedagemModel.findAll).mockResolvedValue(null);
+      vi.mocked(HospedagemModel.findAll).mockResolvedValue([]);
 
       await getHosp(request, response as unknown as Response);
 
-      expect(response.status).toHaveBeenCalledWith(404);
+      expect(response.status).toHaveBeenCalledWith(200);
+      expect(response.json).toHaveBeenCalledWith([]);
     });
 
     it("retorna 500 quando o model falha", async () => {
