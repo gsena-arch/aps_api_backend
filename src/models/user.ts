@@ -70,13 +70,8 @@ async function update(user: UpdateUser) {
   const { data, error } = await supabase
     .from('usuario')
     .update({
-      nome: user.nome,
-      email: user.email,
-      senha: user.senha,
-      telefone: user.telefone || null,
-      tipo: user.tipo.toUpperCase(),
-      foto_url: user.foto_url || null,
-      data_nascimento: user.data_nascimento || null,
+      ...user,
+      tipo: user.tipo?.toUpperCase(),
       atualizado_em: new Date().toISOString(),
     })
     .eq('id', user.id)
