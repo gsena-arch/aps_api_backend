@@ -3,8 +3,10 @@
 API REST para a plataforma Hostlix, voltada à divulgação e consulta de hospedagens. O projeto organiza os dados de hóspedes, anfitriões e acomodações, permitindo criar, consultar, atualizar e remover usuários e anúncios de hospedagem.
 
 ## Integrantes
-
-- **Preencher:** nome completo de cada integrante da equipe. Essa informação não está cadastrada no repositório.
+- Gabriel Sena
+- Luiz Hey
+- Luiz Angelo
+- Lucas Antonetti.
 
 ## Tecnologias
 
