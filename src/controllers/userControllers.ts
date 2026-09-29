@@ -87,8 +87,14 @@ export async function postUser(req: Request, res: Response) {
 }
 
 export async function putUser(req: Request, res: Response) {
+  const {id} = req.params
+  if(typeof id !== "string"){
+    return res.status(404).json({
+      message: "Id invalido"
+    });
+  }
   const userObj = {
-    id: req.body.id,
+    id: id,
     nome: req.body.nome,
     email: req.body.email,
     senha: req.body.senha,
