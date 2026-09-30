@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, vi } from "vitest";
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 import type { Request, Response } from "express";
 
 import {
@@ -27,6 +27,10 @@ describe("User Controller", () => {
     mockResponse = {
       status: mockStatusFn,
     };
+  });
+
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
   describe("getUsers", () => {
@@ -254,6 +258,7 @@ describe("User Controller", () => {
 
       vi.mocked(UserModel.update).mockResolvedValue(updatedUser);
       mockRequest = {
+        params: { id: "123" },
         body: updateData,
       };
 
@@ -275,6 +280,7 @@ describe("User Controller", () => {
 
       vi.mocked(UserModel.update).mockResolvedValue(null);
       mockRequest = {
+        params: { id: "999" },
         body: updateData,
       };
 
@@ -284,6 +290,21 @@ describe("User Controller", () => {
       expect(mockJsonFn).toHaveBeenCalledWith({
         message: "Usuário não encontrado",
       });
+    });
+
+    it("deve retornar 404 se ID for inválido", async () => {
+      mockRequest = {
+        params: { id: 123 as unknown as string },
+        body: {},
+      };
+
+      await putUser(mockRequest as Request, mockResponse as Response);
+
+      expect(mockStatusFn).toHaveBeenCalledWith(404);
+      expect(mockJsonFn).toHaveBeenCalledWith({
+        message: "Id invalido",
+      });
+      expect(UserModel.update).not.toHaveBeenCalled();
     });
 
     it("deve retornar erro 500 se falhar", async () => {
@@ -299,6 +320,7 @@ describe("User Controller", () => {
         new Error("Database error"),
       );
       mockRequest = {
+        params: { id: "123" },
         body: updateData,
       };
 
